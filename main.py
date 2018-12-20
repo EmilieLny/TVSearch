@@ -32,4 +32,10 @@ def browse():
     sectionTemplate = "./templates/browse.tpl"
     return template("./pages/index.html", version=utils.getVersion(), sectionTemplate=sectionTemplate, sectionData=[json.loads(utils.getJsonFromFile(x)) for x in utils.AVAILABE_SHOWS])
 
+@route('/search')
+def browse():
+    sectionTemplate = "./templates/search.tpl"
+    return template("./pages/index.html", version=utils.getVersion(), sectionTemplate=sectionTemplate, sectionData={})
+
+
 run(host='0.0.0.0', port=os.environ.get('PORT', 5000))
