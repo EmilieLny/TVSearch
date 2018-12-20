@@ -43,6 +43,28 @@ def show(showid):
     showSelected = json.loads(utils.getJsonFromFile(showid))
     return template("./templates/show.tpl", result=showSelected)
 
+
+
+
+
+@route('/show/<showid>/episode/<episodeid>')
+def episode(showid, episodeid):
+    showSelected = json.loads(utils.getJsonFromFile(showid))
+    episodeSelected = showSelected['_embedded']['episodes'][0]
+    for x in showSelected['_embedded']['episodes']:
+        if x['id'] == int(episodeid):
+            episodeSelected = x
+    return template("./pages/index.html", version=utils.getVersion(), sectionTemplate=sectionTemplate, sectionData=episodeSelected)
+
+@route('/ajax/show/<showid>/episode/<episodeid>')
+def episode(showid, episodeid):
+    showSelected = json.loads(utils.getJsonFromFile(showid))
+    episodeSelected = showSelected['_embedded']['episodes'][0]
+    for x in showSelected['_embedded']['episodes']:
+        if x['id'] == int(episodeid):
+            episodeSelected = x
+    return template("./templates/episode.tpl", result=episodeSelected)
+
 @route('/search')
 def search():
     sectionTemplate = "./templates/search.tpl"
