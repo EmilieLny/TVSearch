@@ -32,8 +32,19 @@ def browse():
     sectionTemplate = "./templates/browse.tpl"
     return template("./pages/index.html", version=utils.getVersion(), sectionTemplate=sectionTemplate, sectionData=[json.loads(utils.getJsonFromFile(x)) for x in utils.AVAILABE_SHOWS])
 
+@route('/show/<showid>')
+def show(showid):
+    sectionTemplate = "./templates/show.tpl"
+    showSelected = json.loads(utils.getJsonFromFile(showid))
+    return template("./pages/index.html", version=utils.getVersion(), sectionTemplate=sectionTemplate, sectionData=showSelected)
+
+@route('/ajax/show/<showid>')
+def show(showid):
+    showSelected = json.loads(utils.getJsonFromFile(showid))
+    return template("./templates/show.tpl", result=showSelected)
+
 @route('/search')
-def browse():
+def search():
     sectionTemplate = "./templates/search.tpl"
     return template("./pages/index.html", version=utils.getVersion(), sectionTemplate=sectionTemplate, sectionData={})
 
