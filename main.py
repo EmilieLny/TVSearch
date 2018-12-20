@@ -32,9 +32,37 @@ def browse():
     sectionTemplate = "./templates/browse.tpl"
     return template("./pages/index.html", version=utils.getVersion(), sectionTemplate=sectionTemplate, sectionData=[json.loads(utils.getJsonFromFile(x)) for x in utils.AVAILABE_SHOWS])
 
+@route('/show/<showid>')
+def show(showid):
+    sectionTemplate = "./templates/show.tpl"
+    showSelected = json.loads(utils.getJsonFromFile(showid))
+    return template("./pages/index.html", version=utils.getVersion(), sectionTemplate=sectionTemplate, sectionData=showSelected)
 
-@route('/search', method="GET")
-def browse():
+@route('/ajax/show/<showid>')
+def show(showid):
+    showSelected = json.loads(utils.getJsonFromFile(showid))
+    return template("./templates/show.tpl", result=showSelected)
+
+@route('/show/<showid>/episode/<episodeid>')
+def episode(showid, episodeid):
+    showSelected = json.loads(utils.getJsonFromFile(showid))
+    episodeSelected = showSelected['_embedded']['episodes'][0]
+    for x in showSelected['_embedded']['episodes']:
+        if x['id'] == int(episodeid):
+            episodeSelected = x
+    return template("./pages/index.html", version=utils.getVersion(), sectionTemplate=sectionTemplate, sectionData=episodeSelected)
+
+@route('/ajax/show/<showid>/episode/<episodeid>')
+def episode(showid, episodeid):
+    showSelected = json.loads(utils.getJsonFromFile(showid))
+    episodeSelected = showSelected['_embedded']['episodes'][0]
+    for x in showSelected['_embedded']['episodes']:
+        if x['id'] == int(episodeid):
+            episodeSelected = x
+    return template("./templates/episode.tpl", result=episodeSelected)
+
+@route('/search')
+def search():
     sectionTemplate = "./templates/search.tpl"
     return template("./pages/index.html", version=utils.getVersion(), sectionTemplate=sectionTemplate, sectionData={})
 
