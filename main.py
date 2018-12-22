@@ -20,7 +20,7 @@ def img(filepath):
 @route('/')
 def index():
     sectionTemplate = "./templates/home.tpl"
-    return template("./pages/index.html", version=utils.getVersion(), sectionTemplate=sectionTemplate, sectionData={})
+    return template("./pages/index.html", version=utils.getVersion(), sectionTemplate=sectionTemplate, sectionData={}, order='')
 
 @error(404)
 def error404(error):
@@ -30,7 +30,9 @@ def error404(error):
 @route('/browse')
 def browse():
     sectionTemplate = "./templates/browse.tpl"
-    return template("./pages/index.html", version=utils.getVersion(), sectionTemplate=sectionTemplate, sectionData=[json.loads(utils.getJsonFromFile(x)) for x in utils.AVAILABE_SHOWS])
+    order = "rating"
+    sectionData = [json.loads(utils.getJsonFromFile(x)) for x in utils.AVAILABE_SHOWS]
+    return template("./pages/index.html", version=utils.getVersion(), sectionTemplate=sectionTemplate, sectionData=sectionData, order=order)
 
 @route('/show/<showid>')
 def show(showid):
