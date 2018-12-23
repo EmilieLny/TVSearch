@@ -25,7 +25,7 @@ def index():
 @error(404)
 def error404(error):
     sectionTemplate = "./templates/404.tpl"
-    return template("./pages/index.html", version=utils.getVersion(), sectionTemplate=sectionTemplate, sectionData={})
+    return template("./pages/index.html", version=utils.getVersion(), sectionTemplate=sectionTemplate, sectionData={}, order='')
 
 @route('/browse')
 def browse():
@@ -38,7 +38,7 @@ def browse():
 def show(showid):
     sectionTemplate = "./templates/show.tpl"
     showSelected = json.loads(utils.getJsonFromFile(showid))
-    return template("./pages/index.html", version=utils.getVersion(), sectionTemplate=sectionTemplate, sectionData=showSelected)
+    return template("./pages/index.html", version=utils.getVersion(), sectionTemplate=sectionTemplate, sectionData=showSelected, order='')
 
 @route('/ajax/show/<showid>')
 def show(showid):
@@ -47,12 +47,13 @@ def show(showid):
 
 @route('/show/<showid>/episode/<episodeid>')
 def episode(showid, episodeid):
+    sectionTemplate = "./templates/episode.tpl"
     showSelected = json.loads(utils.getJsonFromFile(showid))
     episodeSelected = showSelected['_embedded']['episodes'][0]
     for x in showSelected['_embedded']['episodes']:
         if x['id'] == int(episodeid):
             episodeSelected = x
-    return template("./pages/index.html", version=utils.getVersion(), sectionTemplate=sectionTemplate, sectionData=episodeSelected)
+    return template("./pages/index.html", version=utils.getVersion(), sectionTemplate=sectionTemplate, sectionData=episodeSelected, order='')
 
 @route('/ajax/show/<showid>/episode/<episodeid>')
 def episode(showid, episodeid):
@@ -66,7 +67,7 @@ def episode(showid, episodeid):
 @route('/search')
 def search():
     sectionTemplate = "./templates/search.tpl"
-    return template("./pages/index.html", version=utils.getVersion(), sectionTemplate=sectionTemplate, sectionData={})
+    return template("./pages/index.html", version=utils.getVersion(), sectionTemplate=sectionTemplate, sectionData={}, order='')
 
 
 @route('/search', method="POST")
@@ -86,7 +87,7 @@ def browse():
                 }
                 search_results.append(single_result)
     sectionData = search_results
-    return template("./pages/index.html", version=utils.getVersion(), sectionTemplate=sectionTemplate, sectionData=sectionData, query=user_search_query)
+    return template("./pages/index.html", version=utils.getVersion(), sectionTemplate=sectionTemplate, sectionData=sectionData, order='', query=user_search_query)
 
 
 run(host='0.0.0.0', port=os.environ.get('PORT', 5000))

@@ -24,10 +24,14 @@
         </header>
         <main class="page-content">
             <section id="dynamic">
-                % if order is 'rating':
-                % include(sectionTemplate, result=sorted(sectionData, key=lambda key: key['rating']['average']),)
+                % if order is 'rating' or order is 'name':
+                    % if order is 'rating':
+                    % include(sectionTemplate, result=sorted(sectionData, key=lambda key: key['rating']['average']))
+                    % else:
+                    % include(sectionTemplate, result=sorted(sectionData, key=lambda key: key['name']))
+                    % end
                 % else:
-                % include(sectionTemplate, result=sorted(sectionData, key=lambda key: key['name']),)
+                % include(sectionTemplate, result=sectionData)
                 % end
             </section>
         </main>
